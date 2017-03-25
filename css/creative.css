@@ -25,6 +25,10 @@ a {
   transition: all 0.35s;
   color: #F05F40;
 }
+form { 
+margin: 0 auto; 
+width:250px;
+}
 a:hover,
 a:focus {
   color: #eb3812;
