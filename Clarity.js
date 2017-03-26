@@ -1,91 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Creative - Start Bootstrap Theme</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-
-    <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
-
-    <!-- Theme CSS -->
-    <link href="css/creative.min.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    
-    
-    
-    
-
-</head>
-
-<body id="page-top">
-
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a>
-            </div>
-
-            
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-
-    <header>
-        <div class="header-content">
-            <div class="header-content-inner">
-                <canvas id="canvas"></canvas>
-            </div>
-        </div>
-    </header>
-
-    
-
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
-    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
-    <!-- Theme JavaScript -->
-    <script src="js/creative.min.js"></script>
-
-</body>
-    <!--Game-->
-    <script>
-    /*
-Copyright (c) 2013 dissimulate at codepen
+/*
+Copyright (c) 2013 Suffick at Codepen (http://codepen.io/suffick) and GitHub (https://github.com/suffick)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -105,128 +19,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
-/* Customisable map data */
-
-var map = {
-
-    tile_size: 20,
-
-    /*
-    
-    Key vairables:
-    
-    id       [required] - an integer that corresponds with a tile in the data array.
-    colour   [required] - any javascript compatible colour variable.
-    solid    [optional] - whether the tile is solid or not, defaults to false.
-    bounce   [optional] - how much velocity is preserved upon hitting the tile, 0.5 is half.
-    jump     [optional] - whether the player can jump while over the tile, defaults to false.
-    friction [optional] - friction of the tile, must have X and Y values (e.g {x:0.5, y:0.5}).
-    gravity  [optional] - gravity of the tile, must have X and Y values (e.g {x:0.5, y:0.5}).
-    fore     [optional] - whether the tile is drawn in front of the player, defaults to false.
-    script   [optional] - refers to a script in the scripts section, executed if it is touched.
-    
-    */
-    
-    keys: [
-        {id: 0, colour: '#333', solid: 0},
-        {id: 1, colour: '#FFFFFF', solid: 0}, <!--Background-->
-        {id: 2,colour: '#000000',solid: 1,bounce: 0.35}, <!--Wall-->
-        {id: 3,colour: 'rgba(121, 220, 242, 0.4)',friction: {x: 0.9,y: 0.9},gravity: {x: 0,y: 0.1},jump: 1,fore: 1},
-        {id: 4,colour: '#777',jump: 1},
-        {id: 5,colour: '#E373FA',solid: 1,bounce: 1.1},
-        {id: 6,colour: '#666',solid: 1,bounce: 0},
-        {id: 7,colour: '#73C6FA',solid: 0,script: 'change_colour'},
-        {id: 8,colour: '#0000FF',solid: 0,script: 'next_level'}, <!--Finish-->
-        {id: 9,colour: '#E42217',solid: 0,script: 'death'},
-        {id: 10,colour: '#555',solid: 1},
-        {id: 11,colour: '#0FF',solid: 0,script: 'unlock'},
-        {id: 12,colour: '#008000', solid: 0, script: 'add_coin'} <!--Coin-->
-    ],
-
-    /* An array representing the map tiles. Each number corresponds to a key */
-    data: [
-        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 1, 1, 1, 1, 1, 1, 9,12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-        
-    ],
-
-    /* Default gravity of the map */
-    
-    gravity: {
-        x: 0,
-        y: 0.3
-    },
-    
-    /* Velocity limits */
-
-    vel_limit: {
-        x: 2,
-        y: 16
-    },
-
-    /* Movement speed when the key is pressed */
-    
-    movement_speed: {
-        jump: 6,
-        left: 1,
-        right: 1
-    },
-    
-    /* The coordinates at which the player spawns and the colour of the player */
-
-    player: {
-        x: 2,
-        y: 2,
-        colour: '#FF9900'
-    },
-    
-    /* scripts refered to by the "script" variable in the tile keys */
-
-    scripts: {
-        /* you can just use "this" instead of your engine variable ("game"), but Codepen doesn't like it */
-        change_colour: 'game.player.colour = "#"+(Math.random()*0xFFFFFF<<0).toString(16);',
-        /* you could load a new map variable here */
-        next_level: 'alert("Yay! You won! Reloading map.");game.load_map(map);',
-        death: 'alert("You died!");game.load_map(map);',
-        unlock: 'game.current_map.keys[10].solid = 0;game.current_map.keys[10].colour = "#888";',
-        add_coin: 'map.player.x = (this.player.loc.x) / (this.tile_size);map.player.y = (this.player.loc.y) / (this.tile_size);               this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)] = 1;game.load_map(map);'
-    }
-};
-
-/* Clarity engine */
 
 var Clarity = function () {
 
@@ -249,8 +41,7 @@ var Clarity = function () {
     this.key = {
         left: false,
         right: false,
-        up: false,
-        down: false
+        up: false
     };
 
     this.player = {
@@ -303,9 +94,6 @@ Clarity.prototype.keydown = function (e) {
     case 39:
         _this.key.right = true;
         break;
-    case 40:
-        _this.key.down = true;
-        break;
     }
 };
 
@@ -322,9 +110,6 @@ Clarity.prototype.keyup = function (e) {
         break;
     case 39:
         _this.key.right = false;
-        break;
-    case 40:
-        _this.key.down = false;
         break;
     }
 };
@@ -373,11 +158,6 @@ Clarity.prototype.load_map = function (map) {
     this.player.loc.x = map.player.x * this.tile_size || 0;
     this.player.loc.y = map.player.y * this.tile_size || 0;
     this.player.colour = map.player.colour || '#000';
-  
-    this.key.left  = false;
-    this.key.up    = false;
-    this.key.right = false;
-    this.key.down = false;
     
     this.camera = {
         x: 0,
@@ -633,8 +413,6 @@ Clarity.prototype.update_player = function () {
 
         if (this.player.vel.x > -this.current_map.vel_limit.x)
             this.player.vel.x -= this.current_map.movement_speed.left;
-        
-        
     }
 
     if (this.key.up) {
@@ -645,16 +423,8 @@ Clarity.prototype.update_player = function () {
             this.player.can_jump = false;
         }
     }
-    
-    if (this.key.down) {  
-    map.player.x = (this.player.loc.x) / (this.tile_size);
-    map.player.y = (this.player.loc.y) / (this.tile_size);               
-    this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)] = 1;
-    game.load_map(map);  
-    }
 
     if (this.key.right) {
-        
 
         if (this.player.vel.x < this.current_map.vel_limit.x)
             this.player.vel.x += this.current_map.movement_speed.left;
@@ -690,44 +460,3 @@ Clarity.prototype.draw = function (context) {
     this.draw_map(context, false);
     this.draw_player(context);
 };
-
-/* Setup of the engine */
-
-window.requestAnimFrame =
-  window.requestAnimationFrame ||
-  window.webkitRequestAnimationFrame ||
-  window.mozRequestAnimationFrame ||
-  window.oRequestAnimationFrame ||
-  window.msRequestAnimationFrame ||
-  function(callback) {
-    return window.setTimeout(callback, 1000 / 60);
-  };
-
-var canvas = document.getElementById('canvas'),
-    ctx = canvas.getContext('2d');
-
-canvas.width = 880;
-canvas.height = 680;
-
-var game = new Clarity();
-    game.set_viewport(canvas.width, canvas.height);
-    game.load_map(map);
-
-    /* Limit the viewport to the confines of the map */
-    game.limit_viewport = true;
-
-var Loop = function() {
-  
-  ctx.fillStyle = '#333';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
-  game.update();
-  game.draw(ctx);
-  
-  window.requestAnimFrame(Loop);
-};
-
-Loop();
-    </script>
-
-</html>
