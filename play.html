@@ -142,6 +142,8 @@ THE SOFTWARE.
 
 /* Customisable map data */
 
+var mainSong = new Audio("underworld.mp3"); // buffers automatically when created
+mainSong.play();
 
         
 var savedMap = {
@@ -174,7 +176,7 @@ var savedMap = {
         {id: 2,colour: '#000000',solid: 1,bounce: 0.35}, <!--Wall-->
         {id: 3,colour: 'rgba(121, 220, 242, 0.4)',friction: {x: 0.9,y: 0.9},gravity: {x: 0,y: 0.1},jump: 1,fore: 1},
         {id: 4,colour: '#777',jump: 1},
-        {id: 5,colour: '#FF79FF',solid: 1,bounce: 1.1}, <!--Bounce
+        {id: 5,colour: '#FF79FF',solid: 1,bounce: 1.1, script: 'boing'}, <!--Bounce
         {id: 6,colour: '#666',solid: 1,bounce: 0},
         {id: 7,colour: '#73C6FA',solid: 0,script: 'change_colour'},
         {id: 8,colour: '#0000FF',solid: 0,script: 'next_level'}, <!--Finish-->
@@ -225,10 +227,11 @@ var savedMap = {
         /* you can just use "this" instead of your engine variable ("game"), but Codepen doesn't like it */
         change_colour: 'game.player.colour = "#"+(Math.random()*0xFFFFFF<<0).toString(16);',
         /* you could load a new map variable here */
+        boing: 'var boing = new Audio("jump.wav");boing.play();',
         next_level: 'if(map.coin_count >= map.total_coins){alert("Yay! You won in " + totalSeconds + " seconds! Reloading map.");location.reload();}else{alert("You have not finished yet!!! You need " + (map.total_coins - map.coin_count) + " more coins to win!");}this.key.left  = false;this.key.up    = false;this.key.right = false;this.key.down = false;',
         death: 'alert("You died!");location.reload();',
         unlock: 'game.current_map.keys[10].solid = 0;game.current_map.keys[10].colour = "#888";',
-        add_coin: 'map.player.x = (this.player.loc.x) / (this.tile_size);map.player.y = (this.player.loc.y) / (this.tile_size);if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)].id == 12){this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)] = 1;}if(this.current_map.data[Math.round(map.player.y)-1][Math.round(map.player.x)].id == 12){this.current_map.data[Math.round(map.player.y)-1][Math.round(map.player.x)] = 1;}if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)-1].id == 12){this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)-1] = 1;}if(this.current_map.data[Math.round(map.player.y)+1][Math.round(map.player.x)].id == 12){this.current_map.data[Math.round(map.player.y)+1][Math.round(map.player.x)] = 1;}if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)+1].id == 12){this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)+1] = 1;}map.coin_count++;document.body.getElementsByTagName("p")[1].innerHTML = map.coin_count + "/" + map.total_coins;game.load_map(map);'
+        add_coin: 'var audio = new Audio("coin.wav");audio.play();map.player.x = (this.player.loc.x) / (this.tile_size);map.player.y = (this.player.loc.y) / (this.tile_size);if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)].id == 12){this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)] = 1;}if(this.current_map.data[Math.round(map.player.y)-1][Math.round(map.player.x)].id == 12){this.current_map.data[Math.round(map.player.y)-1][Math.round(map.player.x)] = 1;}if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)-1].id == 12){this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)-1] = 1;}if(this.current_map.data[Math.round(map.player.y)+1][Math.round(map.player.x)].id == 12){this.current_map.data[Math.round(map.player.y)+1][Math.round(map.player.x)] = 1;}if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)+1].id == 12){this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)+1] = 1;}map.coin_count++;document.body.getElementsByTagName("p")[1].innerHTML = map.coin_count + "/" + map.total_coins;game.load_map(map);'
     }
 };
 
@@ -677,29 +680,8 @@ Clarity.prototype.update_player = function () {
     if (this.key.down) {
     
         
-        map.player.x = (this.player.loc.x) / (this.tile_size);
-        map.player.y = (this.player.loc.y) / (this.tile_size);
-        if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)].id == 12){
-            this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)] = 1;
-        }
-        if(this.current_map.data[Math.round(map.player.y)-1][Math.round(map.player.x)].id == 12){
-            this.current_map.data[Math.round(map.player.y)-1][Math.round(map.player.x)] = 1;
-        }
-        if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)-1].id == 12){
-            this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)-1] = 1;
-        }
-        if(this.current_map.data[Math.round(map.player.y)+1][Math.round(map.player.x)].id == 12){
-            this.current_map.data[Math.round(map.player.y)+1][Math.round(map.player.x)] = 1;
-        }
-        if(this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)+1].id == 12){
-            this.current_map.data[Math.round(map.player.y)][Math.round(map.player.x)+1] = 1;
-        }
-        
-        
-        
-        map.coin_count++;
-        document.body.getElementsByTagName("p")[1].innerHTML = map.coin_count;
-        game.load_map(map);
+        var audio = new Audio("coin.mp3");
+        audio.play();
     
     /*if(this.current_map.data[Math.round((this.player.loc.y) / (this.tile_size))][Math.round((this.player.loc.x) / (this.tile_size))] == 12){
         map.coin_count++;
